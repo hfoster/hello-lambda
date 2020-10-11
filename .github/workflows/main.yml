@@ -15,7 +15,7 @@ jobs:
     - name:         Checkout
       uses:         actions/checkout@v2.3.3
       with:
-        path:       hello-lambda
+        path:       'hello-lambda'
 
     - name:         Setup Go environment
       uses:         actions/setup-go@v2.1.3
@@ -24,6 +24,6 @@ jobs:
 
     - name:         Build Lambda
       run:          |
-        cd ${{ github.path }}/src/
+        cd hello-lambda/src/
         go get github.com/aws/aws-lambda-go/lambda
         GOOS=linux go build main.go
