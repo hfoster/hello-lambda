@@ -1,7 +1,7 @@
 name:               Build Test Deploy AWS Lambda
 
 on:                 push
-branches:           [ $default-branch ]
+# branches:           [ $default-branch ]
 
 jobs:
   build:
