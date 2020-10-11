@@ -1,4 +1,4 @@
-name: Build Test Deploy AWS Lambda
+name:            Build Test Deploy AWS Lambda
 
 on:
   push:
@@ -7,16 +7,18 @@ on:
 
 jobs:
   container-job:
-    runs-on: ubuntu-latest
+    runs-on:     ubuntu-latest
 
   container:
-    image: golang:latest
+    image:       golang:latest
 
   steps:
-    - uses: actions/checkout@v2.3.3
-    - run: cd $GITHUB_WORKSPACE/hello-lambda/src/
+    - name:      Checkout
+    - uses:      actions/checkout@v2.3.3
+    - run:       cd $GITHUB_WORKSPACE/hello-lambda/src/
 
-    - uses: actions/setup-go@v2.1.3
-    - run: |
+    - name:      Setup Go environment
+    - uses:      actions/setup-go@v2.1.3
+    - run:       |
         go get github.com/aws/aws-lambda-go/lambda
         GOOS=linux go build main.go
