@@ -26,4 +26,6 @@ jobs:
       run:          go get github.com/aws/aws-lambda-go/lambda
 
     - name:         Build lambda
-      run:          GOOS=linux go build -v hello-lambda/src/main.go
+      run:          |
+        cd hello-lambda/src
+        GOOS=linux go build -v main.go
