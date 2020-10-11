@@ -3,7 +3,7 @@ name:           Build Test Deploy AWS Lambda
 on:
   push:
     branches:
-      - main
+      - [ $default-branch ]
 
 jobs:
   build:
