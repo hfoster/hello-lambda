@@ -31,7 +31,8 @@ jobs:
         cd hello-lambda/src
         pwd
         ls -la
-        GOOS=linux go build -v main.go
+        GOOS=linux
+        go build -v main.go
 
   package:
     name:           Package
@@ -42,5 +43,7 @@ jobs:
 
     - name:         Package lambda
       run:          |
+        cd hello-lambda/src
         pwd
         ls -la
+        zip function.zip main
