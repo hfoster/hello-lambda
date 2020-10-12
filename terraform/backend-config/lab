@@ -1,0 +1,3 @@
+bucket = "terraform-infrastructure-modules-backend-bucket"
+key    = "projects/hello-lambda.tfstate"
+region = "eu-west-2"
