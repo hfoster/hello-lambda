@@ -7,6 +7,18 @@ on:
 
 jobs:
 
+  check-env:
+    name:           Check Env
+    runs-on:        ubuntu-latest
+
+    steps:
+
+    - name:         Print environment variables
+      run:          set
+
+    - name:         Print original working directory
+      run:          pwd
+
   build:
     name:           Build
     runs-on:        ubuntu-latest
