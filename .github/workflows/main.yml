@@ -39,5 +39,5 @@ jobs:
 
     - name:         Package lambda
       run:          |
-        cd $GITHUB_WORKSPACE/hello-lambda/src
+        pwd
         zip function.zip main
