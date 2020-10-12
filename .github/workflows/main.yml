@@ -31,7 +31,7 @@ jobs:
         cd hello-lambda/src
         GOOS=linux go build -v main.go
 
-  test:
+  package:
     name:           Package
     runs-on:        ubuntu-latest
 
