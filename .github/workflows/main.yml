@@ -45,4 +45,4 @@ jobs:
       uses:         actions/upload-artifact@v2
       with:
         name:       function.zip
-        path:       hello-lambda/src/
+        path:       hello-lambda/src/function.zip
