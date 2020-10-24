@@ -1,5 +1,5 @@
 module "vpc" {
-  source = "git@github.com:hfoster/terraform-modules.git//aws/vpc"
+  source = "github.com/hfoster/terraform-modules.git//aws/vpc"
 
   vpc_cidr_block = "10.0.0.0/16"
   dns_support    = true
@@ -7,13 +7,13 @@ module "vpc" {
 }
 
 module "igw" {
-  source = "git@github.com:hfoster/terraform-modules.git//aws/internet_gateway"
+  source = "github.com/hfoster/terraform-modules.git//aws/internet_gateway"
 
   vpc_id = module.vpc.vpc_id
 }
 
 module "private_subnet" {
-  source = "git@github.com:hfoster/terraform-modules.git//aws/subnet"
+  source = "github.com/hfoster/terraform-modules.git//aws/subnet"
 
   public_ip      = false
   vpc_id         = module.vpc.vpc_id
@@ -23,7 +23,7 @@ module "private_subnet" {
 }
 
 module "public_subnet" {
-  source = "git@github.com:hfoster/terraform-modules.git//aws/subnet"
+  source = "github.com/hfoster/terraform-modules.git//aws/subnet"
 
   public_ip      = true
   vpc_id         = module.vpc.vpc_id
@@ -33,13 +33,13 @@ module "public_subnet" {
 }
 
 module "ngw" {
-  source = "git@github.com:hfoster/terraform-modules.git//aws/nat_gateway"
+  source = "github.com/hfoster/terraform-modules.git//aws/nat_gateway"
 
   public_subnet_ids = module.public_subnet.subnet_ids
 }
 
 module "private_routing" {
-  source = "git@github.com:hfoster/terraform-modules.git//aws/private_routing"
+  source = "github.com/hfoster/terraform-modules.git//aws/private_routing"
 
   nat_gateway_ids    = module.ngw.nat_gateway_ids
   vpc_id             = module.vpc.vpc_id
@@ -47,7 +47,7 @@ module "private_routing" {
 }
 
 module "public_routing" {
-  source = "git@github.com:hfoster/terraform-modules.git//aws/public_routing"
+  source = "github.com/hfoster/terraform-modules.git//aws/public_routing"
 
   vpc_id            = module.vpc.vpc_id
   igw_id            = module.igw.igw_id
