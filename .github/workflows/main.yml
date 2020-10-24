@@ -71,7 +71,7 @@ jobs:
       uses:                    actions/download-artifact@v2
       with:
         name:                  function.zip
-        path:                  hello-lambda/terraform
+        path:                  hello-lambda/bin
 
     - name:                    Initialise Terraform
       run:                     |
@@ -81,15 +81,14 @@ jobs:
     - name:                    Terraform plan
       run:                     |
         cd hello-lambda/terraform
-        terraform plan -var lambda_pkg_filename=function.zip -out lab.tfplan
+        terraform plan -var lambda_pkg_filename=../bin/function.zip -out lab.tfplan
 
     - name:                    Terraform apply
       run:                     |
         cd hello-lambda/terraform
-        ls -la
         terraform apply lab.tfplan
 
-    - name:                    Terraform destroy
-      run:                     |
-        cd hello-lambda/terraform
-        terraform destroy -var lambda_pkg_filename=function.zip -auto-approve
+    # - name:                  Terraform destroy
+    #   run:                   |
+    #     cd hello-lambda/terraform
+    #     terraform destroy -var lambda_pkg_filename=../bin/function.zip -auto-approve
