@@ -1,4 +1,4 @@
-name:               Build Package Deploy AWS Lambda
+name:                          Build Package Deploy AWS Lambda
 
 on:
   push:
@@ -8,37 +8,75 @@ on:
 jobs:
 
   build:
-    name:           Build and Package
-    runs-on:        ubuntu-latest
+    name:                      Build and Package
+    runs-on:                   ubuntu-latest
 
     steps:
 
-    - name:         Checkout
-      uses:         actions/checkout@v2.3.3
+    - name:                    Checkout
+      uses:                    actions/checkout@v2.3.3
       with:
-        path:       hello-lambda
+        path:                  hello-lambda
 
-    - name:         Setup Go environment
-      uses:         actions/setup-go@v2.1.3
+    - name:                    Setup Go environment
+      uses:                    actions/setup-go@v2.1.3
       with:
-        go-version: 1.15.2
+        go-version:            1.15.2
 
-    - name:         Get dependencies
-      run:          go get github.com/aws/aws-lambda-go/lambda
+    - name:                    Get dependencies
+      run:                     go get github.com/aws/aws-lambda-go/lambda
 
-    - name:         Build lambda
-      run:          |
+    - name:                    Build lambda
+      run:                     |
         cd hello-lambda/src
         export GOOS=linux
         go build -v main.go
 
-    - name:         Package lambda
-      run:          |
+    - name:                    Package lambda
+      run:                     |
         cd hello-lambda/src
         zip function.zip main
 
-    - name:         Publish artifact
-      uses:         actions/upload-artifact@v2
+    - name:                    Publish artifact
+      uses:                    actions/upload-artifact@v2
       with:
-        name:       function.zip
-        path:       hello-lambda/src/function.zip
+        name:                  function.zip
+        path:                  hello-lambda/src/function.zip
+
+  deploy:
+    name:                      Deploy Lambda
+    runs-on:                   ubuntu-latest
+
+    steps:
+
+    - name:                    Checkout
+      uses:                    actions/checkout@v2.3.3
+      with:
+        path:                  hello-lambda
+
+    - name:                    Configure AWS Credentials
+      uses:                    aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id:     ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    - name:                    Setup Terraform environment
+      uses:                    hashicorp/setup-terraform@v1.2.0
+      with:
+        terraform_version:     0.13.0
+
+    - name:                    Download Lambda package
+      uses:                    actions/download-artifact@v2
+      with:
+        name:                  function.zip
+        path:                  hello-lambda/bin/function.zip
+
+    - name:                    Initialise Terraform
+      run:                     |
+        cd hello-lambda/terraform
+        terraform init -backend-config backend-config/lab
+
+    - name:                    Terraform plan
+      run:                     |
+        cd hello-lambda/terraform
+        terraform plan -var lambda_pkg_filename=../bin/function.zip -out lab.tfplan
