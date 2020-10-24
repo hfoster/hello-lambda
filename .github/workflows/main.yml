@@ -71,7 +71,7 @@ jobs:
       uses:                    actions/download-artifact@v2
       with:
         name:                  function.zip
-        path:                  hello-lambda/terraform/function.zip
+        path:                  hello-lambda/terraform
 
     - name:                    Initialise Terraform
       run:                     |
