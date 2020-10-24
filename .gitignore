@@ -1,3 +1,4 @@
 *.tfplan
 .terraform
 *.tfstate
+*.zip
