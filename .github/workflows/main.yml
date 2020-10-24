@@ -29,16 +29,12 @@ jobs:
     - name:         Build lambda
       run:          |
         cd hello-lambda/src
-        pwd
-        ls -la
         export GOOS=linux
         go build -v main.go
 
     - name:         Package lambda
       run:          |
         cd hello-lambda/src
-        pwd
-        ls -la
         zip function.zip main
 
     - name:         Publish artifact
