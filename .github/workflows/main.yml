@@ -86,6 +86,7 @@ jobs:
     - name:                    Terraform apply
       run:                     |
         cd hello-lambda/terraform
+        ls -la
         terraform apply lab.tfplan
 
     - name:                    Terraform destroy
