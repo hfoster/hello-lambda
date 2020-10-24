@@ -8,7 +8,7 @@ on:
 jobs:
 
   build:
-    name:           Build
+    name:           Build and Package
     runs-on:        ubuntu-latest
 
     steps:
@@ -34,16 +34,15 @@ jobs:
         GOOS=linux
         go build -v main.go
 
-  package:
-    name:           Package
-    runs-on:        ubuntu-latest
-    needs:          build
-
-    steps:
-
     - name:         Package lambda
       run:          |
         cd hello-lambda/src
         pwd
         ls -la
         zip function.zip main
+
+    - name:         Publish artifact
+      uses:         actions/upload-artifact@v2
+      with:
+        name:       function.zip
+        path:       hello-lambda/src/
