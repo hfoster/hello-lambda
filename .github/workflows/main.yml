@@ -75,7 +75,7 @@ jobs:
     - name:                    Terraform init
       run:                     |
         cd hello-lambda/terraform
-        terraform init -backend-config backend-config/lab
+        terraform init -backend-config=backend-config/lab
 
     - name:                    Terraform plan
       run:                     |
@@ -86,8 +86,3 @@ jobs:
       run:                     |
         cd hello-lambda/terraform
         terraform apply lab.tfplan
-
-    - name:                    Terraform destroy
-      run:                     |
-        cd hello-lambda/terraform
-        terraform destroy -var lambda_pkg_filename=../bin/function.zip -auto-approve
