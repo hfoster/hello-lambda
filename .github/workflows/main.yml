@@ -29,7 +29,6 @@ jobs:
     - name:                    Build lambda
       run:                     |
         cd hello-lambda/src
-        export GOOS=linux
         go build -v main.go
 
     - name:                    Package lambda
@@ -73,7 +72,7 @@ jobs:
         name:                  function.zip
         path:                  hello-lambda/bin
 
-    - name:                    Initialise Terraform
+    - name:                    Terraform init
       run:                     |
         cd hello-lambda/terraform
         terraform init -backend-config backend-config/lab
