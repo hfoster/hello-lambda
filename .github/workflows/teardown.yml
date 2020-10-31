@@ -12,8 +12,6 @@ jobs:
 
       - name:                    Checkout
         uses:                    actions/checkout@v2.3.3
-        with:
-          path:                  hello-lambda
 
       - name:                    Configure AWS Credentials
         uses:                    aws-actions/configure-aws-credentials@v1
@@ -29,10 +27,10 @@ jobs:
 
       - name:                    Terraform init
         run:                     |
-          cd hello-lambda/terraform
+          cd terraform
           terraform init -backend-config=backend-config/lab
 
       - name:                    Terraform destroy
         run:                     |
-          cd hello-lambda/terraform
+          cd terraform
           terraform destroy -var lambda_pkg_filename=../bin/function.zip -auto-approve

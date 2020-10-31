@@ -15,8 +15,6 @@ jobs:
 
     - name:                    Checkout
       uses:                    actions/checkout@v2.3.3
-      with:
-        path:                  hello-lambda
 
     - name:                    Setup Go environment
       uses:                    actions/setup-go@v2.1.3
@@ -28,19 +26,19 @@ jobs:
 
     - name:                    Build lambda
       run:                     |
-        cd hello-lambda/src
+        cd src
         go build -v main.go
 
     - name:                    Package lambda
       run:                     |
-        cd hello-lambda/src
+        cd src
         zip function.zip main
 
     - name:                    Publish artifact
       uses:                    actions/upload-artifact@v2
       with:
         name:                  function.zip
-        path:                  hello-lambda/src/function.zip
+        path:                  src/function.zip
 
   deploy:
     name:                      Deploy Lambda
@@ -51,8 +49,6 @@ jobs:
 
     - name:                    Checkout
       uses:                    actions/checkout@v2.3.3
-      with:
-        path:                  hello-lambda
 
     - name:                    Configure AWS Credentials
       uses:                    aws-actions/configure-aws-credentials@v1
@@ -70,19 +66,19 @@ jobs:
       uses:                    actions/download-artifact@v2
       with:
         name:                  function.zip
-        path:                  hello-lambda/bin
+        path:                  bin
 
     - name:                    Terraform init
       run:                     |
-        cd hello-lambda/terraform
+        cd terraform
         terraform init -backend-config=backend-config/lab
 
     - name:                    Terraform plan
       run:                     |
-        cd hello-lambda/terraform
+        cd terraform
         terraform plan -var lambda_pkg_filename=../bin/function.zip -out lab.tfplan
 
     - name:                    Terraform apply
       run:                     |
-        cd hello-lambda/terraform
+        cd terraform
         terraform apply lab.tfplan
